@@ -33,26 +33,6 @@ class Graph:
                 print(f" -> {curr.val} ({curr.weight})")
                 curr = curr.next
             print()
-    
-    def get_neighbors(self, vertex):
-        neighbors = []
-        curr = self.adj_list[self.vertex_dict[vertex]]
-        while curr:
-            neighbors.append(curr.val)
-            curr = curr.next
-        return neighbors
-    
-    @classmethod
-    def from_edges_tuple(cls, edges):
-        vertices = set()
-        for edge in edges:
-            vertices.add(edge[0])
-            vertices.add(edge[1])
-        vertices = sorted(list(vertices))
-        graph = cls(vertices)
-        for edge in edges:
-            graph.add_edge(edge[0], edge[1], edge[2])
-        return graph
 
 # vertices = ['A', 'B', 'C', 'D']
 # g = Graph(vertices)
