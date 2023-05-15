@@ -1,34 +1,36 @@
 from Graph import Graph
 import random
+import heapq
 
 def prim(graph):
     X = set()
     T = []
     weight = 0
-    # Initialize X with a random vertex
+    
     random_vertex = random.choice(graph.vertices)
     X.add(random_vertex)
 
+    edges_heap = []
     while True:
-        min_cost = float('inf')
-        selected_edge = None
-
         for V in X:
             curr = graph.adj_list[graph.vertex_dict[V]]
             while curr:
                 W = curr.val
-                if W not in X and curr.weight < min_cost:
-                    min_cost = curr.weight
-                    selected_edge = (V, W)
+                if W not in X:
+                    heapq.heappush(edges_heap, (curr.weight, (V, W)))
                 curr = curr.next
 
-        if selected_edge is None:
+        if not edges_heap:
             break
 
+        min_cost, selected_edge = heapq.heappop(edges_heap)
         v_star, w_star = selected_edge
+        
+        if w_star in X:
+            continue
+        
         X.add(w_star)
         T.append(selected_edge)
-        
         weight += min_cost
 
     return T, weight
