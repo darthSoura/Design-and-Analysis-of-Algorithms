@@ -55,20 +55,22 @@ def argmin(F, T=None):
     
 def huffman_straightforward(symbol_freq):
     
+    # symbol_freq = {'A': 0.60, 'B': 0.25, 'C': 0.10, 'D': 0.05}
+    
     symbols = list(symbol_freq.keys())
     F = []
     for symbol in symbols:
         Ta = HuffmanNode(symbol_freq[symbol], symbol)
         F.append(Ta)
-    
+
     while len(F) > 1:
         
-        T1 = argmin(F)
-        T2 = argmin(F, T1)
+        T1 = argmin(F) 
+        T2 = argmin(F, T1) 
         
         F.remove(T1)
         F.remove(T2)
-        
+                
         node_freq = T1.freq + T2.freq
         T3 = HuffmanNode(node_freq)
         T3.left = T1
@@ -79,6 +81,7 @@ def huffman_straightforward(symbol_freq):
     
     tree = F[0]
     encoding_table = {}
+    # {'A':'1'}
     if tree:
         root = tree
         traverse_huffman_tree(root, encoding_table)
@@ -90,7 +93,20 @@ def huffman_straightforward(symbol_freq):
     
     return tree, encoding_table, weighted_average
 
+                    # root (1)
+                 # /          \
+             #   BCD (0.40)    A(0.60)
+            # /           \
+          # CD (0.15)     B(0.25)
+        # /        \
+     # D(0.05)     C(0.10)
+
+# traverse_huffman_tree(root, {}, '')
+    
+
+
 def traverse_huffman_tree(node, encoding_table, encoding=''):
+    print(node.symbol, node.left, node.right, sep=' | ')
     if node.symbol is not None:
         encoding_table[node.symbol] = encoding
         return
